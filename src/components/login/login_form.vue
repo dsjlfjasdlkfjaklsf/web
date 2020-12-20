@@ -4,8 +4,8 @@
       <el-form-item label="ID" prop="ID">
         <el-input v-model="form.ID" placeholder="请输入ID"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+      <el-form-item label="密码" prop="Password">
+        <el-input type="Password" v-model="form.Password" placeholder="请输入密码"></el-input>
       </el-form-item>
 
       <el-form-item label-width="20px">
@@ -42,14 +42,14 @@ export default {
     return {
       form: {
         ID: '',
-        password: ''
+        Password: ''
       },
       rules: {
         ID: [{
           validator: validateID,
           trigger: 'blur'
         }],
-        password: [{
+        Password: [{
           validator: validatePassward,
           trigger: 'blur'
         }]

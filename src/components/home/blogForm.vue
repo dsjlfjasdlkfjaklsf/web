@@ -37,7 +37,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">查看</el-button>
+          @click="handleLookUp(scope.$index, scope.row)">查看</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -60,25 +60,9 @@ export default {
     }
   },
   methods: {
-    handleDelete: function (index, row) {
+    handleLookUp: function (index, row) {
       console.log(row.BlogID)
-      let api = '/api/blog/' + row.BlogID
-      this.$axios.delete(api).then(response => {
-       console.log('delete blog')
-       // let data = JSON.parse(response.data)
-       let data = response.data
-       if (data.state === true) {
-         alert('删除成功')
-         getBlog()
-       } else {
-         this.$notify.error({
-           title: '错误',
-           message: data.response
-         })
-       }
-     }).catch(failResponse => {
-         console.log(failResponse)
-       })
+      this.$router.push('/articleDetail/' + row.BlogID)
     },
     getUser: function () {
      let api = '/api/user/' + token.getID() + '/info'

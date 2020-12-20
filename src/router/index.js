@@ -24,10 +24,24 @@ export default new Router({
       component: () => import('@/views/signin')
     },
     {
-      path: '/blog/:id',
+      path: '/blogManage',
+      name: 'blogManage',
+      component: () => import('@/views/blogManage')
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: () => import('@/views/home')
+    },
+    {
+      path: '/articleDetail/:blogID',
       name: 'articleDetail',
+      props: true,
       component: () => import('@/views/articleDetail')
     },
+    {
+      
+    }
     {
       path: '/404',
       name: 'NotFound',

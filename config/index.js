@@ -10,9 +10,6 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-<<<<<<< HEAD
-      
-=======
       '/api': {
         target: 'http://virtserver.swaggerhub.com/CSBlog/a-blog_system/1.0.0',
         changeOrigin: true,
@@ -27,7 +24,6 @@ module.exports = {
           '^/mock': ''
         }
       }
->>>>>>> a0237cf3122a561a20f6a8af5108374e5cf31f85
     },
 
     // Various Dev Server settings

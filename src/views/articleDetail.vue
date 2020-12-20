@@ -84,7 +84,7 @@ export default {
     }
   },
   created () {
-    this.BlogId = this.$route.params.id
+    this.BlogId = this.$route.params.blogID
     this.getBlogData()
     this.getBlogComment()
   },

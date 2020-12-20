@@ -40,9 +40,6 @@ export default new Router({
       component: () => import('@/views/articleDetail')
     },
     {
-      
-    }
-    {
       path: '/404',
       name: 'NotFound',
       component: () => import('@/views/404')

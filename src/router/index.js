@@ -19,8 +19,8 @@ let router = new Router({
       component: () => import('@/views/login')
     },
     {
-      path: '/signin',
-      name: 'signin',
+      path: '/signup',
+      name: 'signup',
       component: () => import('@/views/signin')
     },
     {

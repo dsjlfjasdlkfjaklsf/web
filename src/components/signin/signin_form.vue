@@ -1,14 +1,14 @@
 <template>
   <div id='signin'>
     <el-form ref="form" :model="form" :rules="rules" label-width="110px" label-position="left">
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+      <el-form-item label="用户名" prop="Name">
+        <el-input v-model="form.Name" placeholder="请输入用户名"></el-input>
       </el-form-item>
-      <el-form-item label="ID" prop="password">
+      <el-form-item label="ID" prop="ID">
         <el-input v-model="form.ID" placeholder="请输入ID"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+      <el-form-item label="密码" prop="Password">
+        <el-input type="Password" v-model="form.Password" placeholder="请输入密码"></el-input>
       </el-form-item>
 
       <el-form-item label-width="20px">
@@ -21,13 +21,11 @@
 </template>
 
 <script>
-// import {
-//   setToken
-// } from '@/utils/token'
+// import token from '@/util/token'
 export default {
   name: 'signinForm',
   data: function () {
-    var validateUserName = (rule, value, callback) => {
+    var validateName = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入用户名'))
       } else {
@@ -43,7 +41,7 @@ export default {
     }
     var validateID = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('ID'))
+        callback(new Error('请输入ID'))
       } else {
         callback()
       }
@@ -51,16 +49,17 @@ export default {
 
     return {
       form: {
-        username: '',
-        password: '',
+        Name: '',
+        Password: '',
         ID: ''
       },
+      dialogVisible: false,
       rules: {
-        username: [{
-          validator: validateUserName,
+        Name: [{
+          validator: validateName,
           trigger: 'blur'
         }],
-        password: [{
+        Password: [{
           validator: validatePassward,
           trigger: 'blur'
         }],
@@ -76,6 +75,29 @@ export default {
       this.$router.push('/login')
     },
     onRegist: function () {
+      this.$refs['form'].validate().then(valid => {
+        return this.$axios.post('/api/user/signup', this.form)
+      }, valid => {
+        return Promise.reject(new Error('submit failed'))
+      }).then(response => {
+        console.log('submit!')
+        // console.log(response.data)
+        // let data = JSON.parse(response.data)
+        let data = response.data
+        if (data.state === true) {
+          // setToken(data.session_id)
+          alert("注册成功")
+          // token.setToken(data.response)
+          this.$router.push('/login')
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.response
+          })
+        }
+      }).catch(failResponse => {
+        console.log(failResponse)
+      })
     }
   }
 }

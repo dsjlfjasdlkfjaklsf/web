@@ -6,18 +6,34 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+<<<<<<< HEAD
       
+=======
+      '/api': {
+        target: 'http://virtserver.swaggerhub.com/CSBlog/a-blog_system/1.0.0',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
+      '/mock': {
+        target: 'http://virtserver.swaggerhub.com/CSBlog/a-blog_system/1.0.0',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/mock': ''
+        }
+      }
+>>>>>>> a0237cf3122a561a20f6a8af5108374e5cf31f85
     },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
+    port: 9002, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-

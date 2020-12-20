@@ -4,8 +4,8 @@
       <el-form-item label="ID" prop="ID">
         <el-input v-model="form.ID" placeholder="请输入ID"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+      <el-form-item label="密码" prop="Password">
+        <el-input type="Password" v-model="form.Password" placeholder="请输入密码"></el-input>
       </el-form-item>
 
       <el-form-item label-width="20px">
@@ -18,9 +18,7 @@
 </template>
 
 <script>
-// import {
-//   setToken
-// } from '@/utils/token'
+import token from '@/util/token'
 export default {
   name: 'loginForm',
   data: function () {
@@ -42,14 +40,14 @@ export default {
     return {
       form: {
         ID: '',
-        password: ''
+        Password: ''
       },
       rules: {
         ID: [{
           validator: validateID,
           trigger: 'blur'
         }],
-        password: [{
+        Password: [{
           validator: validatePassward,
           trigger: 'blur'
         }]
@@ -58,9 +56,32 @@ export default {
   },
   methods: {
     onRegist: function () {
-      this.$router.push('/signin')
+      this.$router.push('/signup')
     },
-    onSubmit: function () {}
+    onSubmit: function () {
+      let id = this.form.ID
+      this.$refs['form'].validate().then(valid => {
+        return this.$axios.post('/api/user/login', this.form)
+      }, valid => {
+        return Promise.reject(new Error('submit failed'))
+      }).then(response => {
+        console.log('submit!')
+        // console.log(response.data)
+        // let data = JSON.parse(response.data)
+        let data = response.data
+        if (data.state === true) {
+          token.setToken(data.response, id)
+          this.$router.push('/home')
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.response
+          })
+        }
+      }).catch(failResponse => {
+        console.log(failResponse)
+      })
+    }
   }
 }
 </script>

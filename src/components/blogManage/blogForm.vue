@@ -10,12 +10,12 @@
       label="标题"
       width="200"
       align="center"
-      prop="title">
+      prop="Title">
     </el-table-column>
     <el-table-column
       label="摘要"
       align="center"
-      prop="abstract">
+      prop="Abstract">
     </el-table-column>
     <el-table-column
     label="操作"
@@ -60,11 +60,11 @@ export default {
     }
   },
   methods: {
-    handleDelete (index, row) {
+    handleDelete: function (index, row) {
       console.log(row.BlogID)
     }
   }
-}
+}  
 </script>
 
 <style>

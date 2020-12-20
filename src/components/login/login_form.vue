@@ -58,10 +58,30 @@ export default {
   },
   methods: {
     onRegist: function () {
-      this.$router.push('/signin')
+      this.$router.push('/signup')
     },
     onSubmit: function () {
-      this.$axios.post('/user')
+      this.$refs['form'].validate().then(valid => {
+        return this.$axios.post('/api/user/login', this.form)
+      }, valid => {
+        return Promise.reject(new Error('submit failed'))
+      }).then(response => {
+        console.log('submit!')
+        // console.log(response.data)
+        // let data = JSON.parse(response.data)
+        let data = response.data
+        if (data.state === true) {
+          // setToken(data.session_id)
+          this.$router.push('/')
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.response
+          })
+        }
+      }).catch(failResponse => {
+        console.log(failResponse)
+      })
     }
   }
 }

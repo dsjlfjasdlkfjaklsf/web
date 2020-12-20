@@ -43,7 +43,7 @@ export default {
     }
     var validateID = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('ID'))
+        callback(new Error('请输入ID'))
       } else {
         callback()
       }
@@ -55,6 +55,7 @@ export default {
         Password: '',
         ID: ''
       },
+      dialogVisible: false,
       rules: {
         Name: [{
           validator: validateName,
@@ -76,6 +77,28 @@ export default {
       this.$router.push('/login')
     },
     onRegist: function () {
+      this.$refs['form'].validate().then(valid => {
+        return this.$axios.post('/api/user/signup', this.form)
+      }, valid => {
+        return Promise.reject(new Error('submit failed'))
+      }).then(response => {
+        console.log('submit!')
+        // console.log(response.data)
+        // let data = JSON.parse(response.data)
+        let data = response.data
+        if (data.state === true) {
+          // setToken(data.session_id)
+          alert("注册成功")
+          this.$router.push('/login')
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: data.response
+          })
+        }
+      }).catch(failResponse => {
+        console.log(failResponse)
+      })
     }
   }
 }

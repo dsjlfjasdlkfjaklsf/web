@@ -51,6 +51,9 @@
               
                 <br>
         </div>
+        <el-button style="margin-top: 15px"
+                     type="primary"
+                     @click="returnLogin">返回</el-button>
       </div>
     </div>
 
@@ -58,6 +61,7 @@
 </template>
 
 <script>
+import token from '@/util/token'
 export default {
   name: 'articleDetail',
   data: () => {
@@ -89,20 +93,7 @@ export default {
     this.getBlogComment()
   },
   methods:{
-    getCookie (st) {
-      let ca = document.cookie.split(';')
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        c = c.trim()
-        console.log(c)
-        if (c.split('=')[0] === st) {
-          return c.split('=')[1]
-        }
-      }
-      return ''
-    },
     getBlogData () {
-      let token = this.getCookie('token')
       // getBlogById({
       //   $config: {
       //   headers: {
@@ -124,7 +115,8 @@ export default {
       // }).catch(err =>{
       //   console.log(err)
       // })
-      this.$axios.get('https://virtserver.swaggerhub.com/Esual/blog/1.0.0/blog/c113456181',{
+      let api ='apit/blog'+this.blogID;
+      this.$axios.get(api,{
     
       }).then(res => {
         let data=res.data;
@@ -142,8 +134,7 @@ export default {
       })
     },
     addComment () {
-      let token = this.getCookie('token')
-      let name = this.getCookie('user')
+      let name = token.getID()
       // createComment({
       //   CommentName: name,
       //   content: this.commentText
@@ -162,9 +153,10 @@ export default {
       //   console.log(err)
       // })
       let params = new URLSearchParams()
-      params.append('ownName','${name}')
-      params.append('content','${commentText}')
-      this.$axios.post('/api/comment/${BlogId}',params).then(res => {
+      params.append('ownName',name)
+      params.append('content',this.commentText)
+       let api ='apit/comment'+this.blogID;
+      this.$axios.post(api,params).then(res => {
         let data=res.data;
         if(data.state === true){
           this.$Message.success('评论成功')
@@ -182,11 +174,8 @@ export default {
       })
     },
     getBlogComment () {
-      let token = this.getCookie('token')
-      this.$axios.get('api/comment/${BlogId}',{
-        header: {
-          'token': token
-        }
+      let api='api/comment'+blogID
+      this.$axios.get(api,{
       }).then(res =>{
         let data=res.data;
         if(data.state === true){
@@ -203,11 +192,8 @@ export default {
       })
     },
     getBlogTag () {
-      let token = this.getCookie('token')
-      this.$axios.get('api/tag/${BlogId}',{
-        header: {
-          'Authorization': token
-        }
+      let api='api/tag'+blogID
+      this.$axios.get(api,{
       }).then(res =>{
         let data=res.data;
         if(data.state === true){
@@ -222,6 +208,9 @@ export default {
       }).catch(err =>{
         console.log(err)
       })
+    },
+    returnLogin () {
+      this.$router.push('/home')
     }
   }
 }

@@ -34,6 +34,11 @@ export default new Router({
       component: () => import('@/views/home')
     },
     {
+      path: '/create',
+      name:  'createBlog',
+      component: () => import('@/views/createBlog')
+    },
+    {
       path: '/articleDetail/:blogID',
       name: 'articleDetail',
       props: true,

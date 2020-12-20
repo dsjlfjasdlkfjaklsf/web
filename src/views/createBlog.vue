@@ -16,12 +16,17 @@
       正文
       <el-input placeholder="正文"
                     type="textarea"
+                    rows='10'
                     v-model="contentText"></el-input>
     </div>
     <el-button style="margin-top: 15px"
                      type="primary"
                      @click="addBlog">提交</el-button>
+       <el-button style="margin-top: 15px"
+                     type="primary"
+                     @click="returnLogin">返回</el-button>
   </div>
+ 
 </template>
 <script>
 export default {
@@ -54,6 +59,9 @@ export default {
       }).catch(err =>{
         console.log(err)
       })
+    },
+    returnLogin () {
+      this.$router.push('/home')
     }
   }
 

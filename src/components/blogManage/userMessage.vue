@@ -58,7 +58,9 @@ export default {
      onExit: function () {
       this.$router.push('/home')
      },
-     onCreate: function () {}
+     onCreate: function () {
+       this.$router.push('/createBlog')
+     }
   },
   created: function () {
     this.getUser()

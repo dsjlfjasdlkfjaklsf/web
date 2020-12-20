@@ -2,7 +2,7 @@
     <div style="width: 100%">
     <div class="article clearfix">
         <div class="header">
-          <h1 class="title">{{articleDetail.title}}</h1>
+          <h1 class="title">{{articleDetail.Title}}</h1>
           <div class="author">
             <div class="info">
               <span class="name">
@@ -24,6 +24,11 @@
                       effect="light"
                       type="success">{{tag}}</el-tag>
             </div>
+            <div class="abstract">
+                <span class="publish-time">
+                摘要： {{articleDetail.Abstract}}
+                </span>
+            </div>
             <span class="clearfix" />
           </div>
         <div class="content">
@@ -42,11 +47,11 @@
         </div>
         <div style="overflow: hidden">
                 <p slot="title">评论</p>
-                <div v-for="(item, index) in comment" :key="item" >
-                    <span style="font-size: 17px;"><b>发布人:{{ item.ownName }}</b></span>
-                    <span style="margin-left: 10px; color: darkgray">发布时间:{{ item.commentTime }}</span>
-                    <p style="padding: 10px">内容: {{ item.content }}</p>
-                    <Divider dashed/>
+                <div  >
+                    <span style="font-size: 17px;"><b>发布人:{{ comment.ownName }}</b></span>
+                    <span style="margin-left: 10px; color: darkgray">发布时间:{{ comment.commentTime }}</span>
+                    <p style="padding: 10px">内容: {{ comment.content }}</p>
+                  
                 </div>
               
                 <br>
@@ -67,30 +72,28 @@ export default {
   data: () => {
     return {
       articleDetail: {
-          title:"bissaoti",
-          BlogId:"ssss",
-          AuthorID:"sss",
-          AuthorName:"yzdl",
-          CreateTime:"9527",
-          Title:"yzdltsssql",
-          Content:"yz66ssssssssssssssssssssssssssssssssssssssssssss",
-          Abstract:"sss"
+            "BlogID": "c113456181",
+            "AuthorID": "u010389391",
+            "AuthorName": "作者",
+            "CreateTime": 1608107600,
+            "Title": "标题党",
+            "Abstract": "摘要",
+            "Content": "这是一段博客内容"
       },
-      tags: ['sss','sss','life'],
+      tags: [],
       commentText: '',
       comment: [{
-          BlogId:'sss',
+          BlogId:'',
           ownName: 'pmlpml',
-          commentTime:'123',
-          content:'thank'
-      }],
-      BlogId: 'c113456181'
+          commentTime:'',
+          content:''
+      }]
     }
   },
-  created () {
-    this.BlogId = this.$route.params.blogID
+  created: function() {
     this.getBlogData()
     this.getBlogComment()
+    this.getBlogTag()
   },
   methods:{
     getBlogData () {
@@ -115,13 +118,13 @@ export default {
       // }).catch(err =>{
       //   console.log(err)
       // })
-      let api ='apit/blog'+this.blogID;
-      this.$axios.get(api,{
-    
-      }).then(res => {
-        let data=res.data;
+      let api ='/api/blog/'+token.getID();
+      this.$axios.get(api).then(response => {
+        console.log('get userss info')
+        let data=response.data;
         if(data.state === true){
-          this.articleDetail=res.response
+          this.articleDetail=data.response[0]
+          console.log(data.response)
         }
         else{
           this.$notify.error({
@@ -155,11 +158,10 @@ export default {
       let params = new URLSearchParams()
       params.append('ownName',name)
       params.append('content',this.commentText)
-       let api ='apit/comment'+this.blogID;
+       let api ='/api/comment/'+token.getID();
       this.$axios.post(api,params).then(res => {
         let data=res.data;
         if(data.state === true){
-          this.$Message.success('评论成功')
           this.commentText = ''
           this.getBlogComment()
         }
@@ -174,12 +176,12 @@ export default {
       })
     },
     getBlogComment () {
-      let api='api/comment'+blogID
-      this.$axios.get(api,{
-      }).then(res =>{
+      let api='/api/comment/'+token.getID()
+      this.$axios.get(api).then(res =>{
         let data=res.data;
         if(data.state === true){
-          this.comment=res.response
+          this.comment=data.response
+          console.log(data.response.ownName)
         }
         else{
           this.$notify.error({
@@ -192,12 +194,13 @@ export default {
       })
     },
     getBlogTag () {
-      let api='api/tag'+blogID
+      let api='/api/tag/'+token.getID()
       this.$axios.get(api,{
       }).then(res =>{
         let data=res.data;
         if(data.state === true){
-          this.comment=res.response
+          this.tags=data.response
+          console.log(data.response)
         }
         else{
           this.$notify.error({
@@ -260,9 +263,8 @@ export default {
   }
   .content{
     padding: 50px;
-    text-align: left;
-    line-height: 100px;
-    width: 500px;
+    line-height: 50px;
+    width: auto;
   }
   .comment{
     margin-top: -10px;

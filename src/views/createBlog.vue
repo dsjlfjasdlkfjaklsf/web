@@ -40,14 +40,13 @@ export default {
   },
   methods: {
     addBlog () {
-      let params = URLSearchParams()
+      let params = new URLSearchParams()
       params.append('Title',this.titleText)
       params.append('Abstract',this.abstractText)
       params.append('Content',this.contentText)
-      this.$axios.post('/api/blog',params).then(res => {
+      this.$axios.post('/api/blog/',params).then(res => {
         let data=res.data;
         if(data.state === true){
-          this.$Message.success('添加成功')
           this.$router.push('/')
         }
         else{

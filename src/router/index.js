@@ -24,7 +24,7 @@ export default new Router({
       component: () => import('@/views/signin')
     },
     {
-      path: '/articleDetail',
+      path: '/blog/:id',
       name: 'articleDetail',
       component: () => import('@/views/articleDetail')
     },

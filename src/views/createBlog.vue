@@ -41,9 +41,9 @@ export default {
   methods: {
     addBlog () {
       let params = URLSearchParams()
-      params.append('Title','${titleText}')
-      params.append('Abstract','${abstractText}')
-      params.append('Content','${contentText}')
+      params.append('Title',this.titleText)
+      params.append('Abstract',this.abstractText)
+      params.append('Content',this.contentText)
       this.$axios.post('/api/blog',params).then(res => {
         let data=res.data;
         if(data.state === true){

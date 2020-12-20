@@ -34,8 +34,9 @@ const router =  new Router({
       component: () => import('@/views/home')
     },
     {
-      path: '/articleDetail',
+      path: '/articleDetail/:blogID',
       name: 'articleDetail',
+      props: true,
       component: () => import('@/views/articleDetail')
     },
     {

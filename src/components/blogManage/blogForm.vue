@@ -57,7 +57,7 @@ export default {
        let data = response.data
        if (data.state === true) {
          alert('删除成功')
-         getBlog()
+         this.getBlog()
        } else {
          this.$notify.error({
            title: '错误',

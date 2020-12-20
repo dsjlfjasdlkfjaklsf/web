@@ -60,7 +60,9 @@ export default {
     onRegist: function () {
       this.$router.push('/signin')
     },
-    onSubmit: function () {}
+    onSubmit: function () {
+      this.$axios.post('/user')
+    }
   }
 }
 </script>

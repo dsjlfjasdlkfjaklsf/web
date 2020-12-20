@@ -5,6 +5,10 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import axios from 'axios'
+
+// 全局注册，之后可在其他组件中通过 this.$axios 发送数据
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

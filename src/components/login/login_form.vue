@@ -18,9 +18,7 @@
 </template>
 
 <script>
-// import {
-//   setToken
-// } from '@/utils/token'
+import token from '@/util/token'
 export default {
   name: 'loginForm',
   data: function () {
@@ -61,6 +59,7 @@ export default {
       this.$router.push('/signup')
     },
     onSubmit: function () {
+      let id = this.form.ID
       this.$refs['form'].validate().then(valid => {
         return this.$axios.post('/api/user/login', this.form)
       }, valid => {
@@ -71,8 +70,8 @@ export default {
         // let data = JSON.parse(response.data)
         let data = response.data
         if (data.state === true) {
-          // setToken(data.session_id)
-          this.$router.push('/')
+          token.setToken(data.response, id)
+          this.$router.push('/home')
         } else {
           this.$notify.error({
             title: '错误',

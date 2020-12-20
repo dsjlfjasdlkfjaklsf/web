@@ -8,9 +8,21 @@
     stripe>
     <el-table-column
       label="标题"
-      width="250"
+      width="200"
       align="center"
       prop="Title">
+    </el-table-column>
+    <el-table-column
+      label="作者"
+      width="100"
+      align="center"
+      prop="AuthorName">
+    </el-table-column>
+    <el-table-column
+      label="创建时间"
+      width="100"
+      align="center"
+      prop="CreateTime">
     </el-table-column>
     <el-table-column
       label="摘要"
@@ -25,7 +37,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          @click="handleDelete(scope.$index, scope.row)">查看</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -87,7 +99,7 @@ export default {
        })
     },
     getBlog: function () {
-     let api = '/api/blog/' + token.getID() + '/all'
+     let api = '/api/blogs/all'
      this.$axios.get(api).then(response => {
        console.log('get blog ')
        // let data = JSON.parse(response.data)

@@ -21,9 +21,7 @@
 </template>
 
 <script>
-// import {
-//   setToken
-// } from '@/utils/token'
+// import token from '@/util/token'
 export default {
   name: 'signinForm',
   data: function () {
@@ -89,6 +87,7 @@ export default {
         if (data.state === true) {
           // setToken(data.session_id)
           alert("注册成功")
+          // token.setToken(data.response)
           this.$router.push('/login')
         } else {
           this.$notify.error({

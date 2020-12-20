@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
-
+import token from '@/util/token'
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: ' ',
       redirect: '/login'
     },
     {
@@ -29,6 +29,11 @@ export default new Router({
       component: () => import('@/views/blogManage')
     },
     {
+      path: '/home',
+      name: 'home',
+      component: () => import('@/views/home')
+    },
+    {
       path: '/articleDetail',
       name: 'articleDetail',
       component: () => import('@/views/articleDetail')
@@ -44,3 +49,23 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach(async (to, from, next) => {
+  const hasToken = token.getID()
+  if (hasToken !== '') { // 登录状态
+    if (to.path === '/login') {
+      next({ path: '/home' })
+    } else {
+      next()
+    }
+  } else { // 未登录状态
+    if (to.path !== '/login' && to.path !== '/signup') {
+      console.log('跳到login')
+      next({path: '/login'})
+    } else {
+      next()
+    }
+  }
+})
+
+export default router

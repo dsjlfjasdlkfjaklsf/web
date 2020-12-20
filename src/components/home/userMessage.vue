@@ -1,7 +1,7 @@
 <template>
   <div id='userMessage'>
     <el-row>
-      <el-col :span="24"><div class="title">博客管理</div></el-col>
+      <el-col :span="24"><div class="title">博客</div></el-col>
     </el-row>
     <el-row>
       <el-col :span="24"><div class="message">ID: {{this.user.ID}}</div></el-col>
@@ -16,8 +16,8 @@
       <el-col :span="24"><div class="message">等级: {{this.user.Level}}</div></el-col>
     </el-row>
     <el-row>
-      <el-button @click="onExit" id="exit-button">返回</el-button>
-      <el-button type="primary" @click="onCreate" id="create-button">新建博客</el-button>
+      <el-button @click="onExit" id="exit-button">退出</el-button>
+      <el-button type="primary" @click="onManage" id="manage-button">博客管理</el-button>
     </el-row>
   </div>
 </template>
@@ -56,9 +56,12 @@ export default {
         })
      },
      onExit: function () {
-      this.$router.push('/home')
+      token.clealToken()
+      this.$router.push('/login')
      },
-     onCreate: function () {}
+     onManage: function () {
+       this.$router.push('/blogManage')
+     }
   },
   created: function () {
     this.getUser()

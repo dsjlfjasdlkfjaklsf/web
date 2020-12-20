@@ -27,7 +27,7 @@
 export default {
   name: 'createBlog',
   data: () => {
-    return {
+    return { 
       titleText: '',
       abstractText: '',
       contentText: ''

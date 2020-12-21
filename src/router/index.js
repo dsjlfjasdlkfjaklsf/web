@@ -10,7 +10,7 @@ let router = new Router({
     {
       path: '/',
       name: 'api',
-      redirect: '/swagger/index.html'
+      redirect: '/login'
     },
     {
       path: '/login',

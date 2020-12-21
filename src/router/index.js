@@ -9,7 +9,7 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'api',
       redirect: '/login'
     },
     {
@@ -32,11 +32,6 @@ let router = new Router({
       path: '/home',
       name: 'home',
       component: () => import('@/views/home')
-    },
-    {
-      path: '/create',
-      name:  'createBlog',
-      component: () => import('@/views/createBlog')
     },
     {
       path: '/articleDetail/:blogID',

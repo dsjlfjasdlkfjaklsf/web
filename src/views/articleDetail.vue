@@ -118,7 +118,7 @@ export default {
       // }).catch(err =>{
       //   console.log(err)
       // })
-      let api ='/api/blog/'+token.getID();
+      let api ='/api/blog/'+this.$route.params.blogID;
       this.$axios.get(api).then(response => {
         console.log('get userss info')
         let data=response.data;
@@ -155,10 +155,10 @@ export default {
       // }).catch(err => {
       //   console.log(err)
       // })
-      let params = new URLSearchParams()
-      params.append('ownName',name)
-      params.append('content',this.commentText)
-       let api ='/api/comment/'+token.getID();
+      let params = new Object()
+      params.ownName=name
+      params.content=this.commentText
+       let api ='/api/comment/'+this.$route.params.blogID;
       this.$axios.post(api,params).then(res => {
         let data=res.data;
         if(data.state === true){
@@ -176,7 +176,7 @@ export default {
       })
     },
     getBlogComment () {
-      let api='/api/comment/'+token.getID()
+      let api='/api/comment/'+this.$route.params.blogID
       this.$axios.get(api).then(res =>{
         let data=res.data;
         if(data.state === true){
@@ -194,7 +194,7 @@ export default {
       })
     },
     getBlogTag () {
-      let api='/api/tag/'+token.getID()
+      let api='/api/tag/'+this.$route.params.blogID
       this.$axios.get(api,{
       }).then(res =>{
         let data=res.data;

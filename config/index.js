@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://virtserver.swaggerhub.com/CSBlog/a-blog_system/1.0.0',
+        target: 'http://127.0.0.1:30070',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

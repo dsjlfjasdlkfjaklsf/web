@@ -83,7 +83,7 @@ export default {
        })
     },
     getBlog: function () {
-     let api = '/api/blogs/all'
+     let api = '/api/blogs'
      this.$axios.get(api).then(response => {
        console.log('get blog ')
        // let data = JSON.parse(response.data)

@@ -4,13 +4,13 @@
       标题
       <el-input placeholder="标题"
                     type="textarea"
-                    v-model="titleText"></el-input>
+                    v-model="Title"></el-input>
     </div>
     <div class="comment">
       摘要
       <el-input placeholder="摘要"
                     type="textarea"
-                    v-model="abstractText"></el-input>
+                    v-model="Abstract"></el-input>
     </div>
     <div class="comment">
       正文
@@ -33,21 +33,22 @@ export default {
   name: 'createBlog',
   data: () => {
     return { 
-      titleText: '',
-      abstractText: '',
+      Title: '',
+      Abstract: '',
       contentText: ''
     }
   },
   methods: {
     addBlog () {
-      let params = new URLSearchParams()
-      params.append('Title',this.titleText)
-      params.append('Abstract',this.abstractText)
-      params.append('Content',this.contentText)
-      this.$axios.post('/api/blog/',params).then(res => {
+      let params = new Object()
+      params.Title=this.Title
+      params.Abstract=this.Abstract
+      params.Content=this.contentText
+
+      this.$axios.post('/api/blog',params).then(res => {
         let data=res.data;
         if(data.state === true){
-          this.$router.push('/')
+          this.$router.push('/home')
         }
         else{
           this.$notify.error({

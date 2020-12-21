@@ -23,7 +23,14 @@ module.exports = {
         pathRewrite: {
           '^/mock': ''
         }
-      }
+      },
+      '/swagger': {
+        target: 'http://127.0.0.1:8080/swagger',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/swagger': ''
+        }
+      },
     },
 
     // Various Dev Server settings

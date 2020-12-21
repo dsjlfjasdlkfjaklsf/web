@@ -1,5 +1,5 @@
 # blog-web
-
+[![Build Status](https://travis-ci.com/dsjlfjasdlkfjaklsf/web.svg?branch=main)](https://travis-ci.com/dsjlfjasdlkfjaklsf/web)
 > send, manage and share your blog 
 
 ## Build Setup

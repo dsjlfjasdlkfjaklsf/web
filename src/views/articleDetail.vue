@@ -47,7 +47,7 @@
         </div>
         <div style="overflow: hidden">
                 <p slot="title">评论</p>
-                <div  >
+                <div  v-for="(comment,index) in comments" :key=index>
                     <span style="font-size: 17px;"><b>发布人:{{ comment.ownName }}</b></span>
                     <span style="margin-left: 10px; color: darkgray">发布时间:{{ comment.commentTime }}</span>
                     <p style="padding: 10px">内容: {{ comment.content }}</p>
@@ -82,12 +82,13 @@ export default {
       },
       tags: [],
       commentText: '',
-      comment: [{
-          BlogId:'',
-          ownName: 'pmlpml',
-          commentTime:'',
-          content:''
-      }]
+      comments: [],
+      user : {
+        ID: '',
+        Name: '',
+        Bio: '',
+        Level: ''
+      }
     }
   },
   created: function() {
@@ -96,6 +97,24 @@ export default {
     this.getBlogTag()
   },
   methods:{
+    getUser: function () {
+     let api = '/api/user/' + token.getID() + '/info'
+     this.$axios.get(api).then(response => {
+       console.log('get user info')
+       // let data = JSON.parse(response.data)
+       let data = response.data
+       if (data.state === true) {
+         this.user = data.response
+       } else {
+         this.$notify.error({
+           title: '错误',
+           message: data.response
+         })
+       }
+     }).catch(failResponse => {
+         console.log(failResponse)
+       })
+    },
     getBlogData () {
       // getBlogById({
       //   $config: {
@@ -123,7 +142,7 @@ export default {
         console.log('get userss info')
         let data=response.data;
         if(data.state === true){
-          this.articleDetail=data.response[0]
+          this.articleDetail=data.response
           console.log(data.response)
         }
         else{
@@ -137,7 +156,50 @@ export default {
       })
     },
     addComment () {
-      let name = token.getID()
+
+    let api = '/api/user/' + token.getID() + '/info'
+     this.$axios.get(api).then(response => {
+       console.log('get user info')
+       // let data = JSON.parse(response.data)
+       let data = response.data
+       if (data.state === true) {
+          this.user = data.response
+          let name = this.user.Name   
+          let params = new Object()
+          params.OwnName=name
+          params.Content=this.commentText
+          let api ='/api/comment/'+this.$route.params.blogID;
+          console.log(api)
+          console.log(params)
+          return this.$axios.post(api,params)
+       } else {
+         this.$notify.error({
+           title: '错误',
+           message: data.response
+         })
+         return Promise.reject(new Error('addComment failed'))
+       }
+     }).catch(failResponse => {
+         console.log(failResponse)
+       }).then(res => {
+        let data=res.data;
+        if(data.state === true){
+          this.commentText = ''
+          this.getBlogComment()
+        }
+        else{
+          this.$notify.error({
+            title: '错误',
+            message: data.response
+          })
+        }
+      }).catch(err =>{
+        console.log(err)
+      })
+
+
+
+
       // createComment({
       //   CommentName: name,
       //   content: this.commentText
@@ -155,33 +217,36 @@ export default {
       // }).catch(err => {
       //   console.log(err)
       // })
-      let params = new Object()
-      params.ownName=name
-      params.content=this.commentText
-       let api ='/api/comment/'+this.$route.params.blogID;
-      this.$axios.post(api,params).then(res => {
-        let data=res.data;
-        if(data.state === true){
-          this.commentText = ''
-          this.getBlogComment()
-        }
-        else{
-          this.$notify.error({
-            title: '错误',
-            message: data.response
-          })
-        }
-      }).catch(err =>{
-        console.log(err)
-      })
+      // let params = new Object()
+      // params.ownName=name
+      // params.content=this.commentText
+      //  let api ='/api/comment/'+this.$route.params.blogID;
+      //  console.log(params)
+      // this.$axios.post(api,params).then(res => {
+      //   let data=res.data;
+      //   if(data.state === true){
+      //     this.commentText = ''
+      //     this.getBlogComment()
+      //   }
+      //   else{
+      //     this.$notify.error({
+      //       title: '错误',
+      //       message: data.response
+      //     })
+      //   }
+      // }).catch(err =>{
+      //   console.log(err)
+      // })
     },
     getBlogComment () {
+      console.log('getBlogComment')
       let api='/api/comment/'+this.$route.params.blogID
       this.$axios.get(api).then(res =>{
         let data=res.data;
+        console.log(res)
         if(data.state === true){
-          this.comment=data.response
-          console.log(data.response.ownName)
+          this.comments=data.response
+          console.log(data.response)
         }
         else{
           this.$notify.error({

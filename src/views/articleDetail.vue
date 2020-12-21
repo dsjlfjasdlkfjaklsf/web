@@ -19,10 +19,10 @@
             <div class="tags "
                  title="标签">
               <el-tag size="small"
-                      v-for="tag in tags"
-                      :key="tag"
+                      v-for="(tag,index) in tags"
+                      :key="index"
                       effect="light"
-                      type="success">{{tag}}</el-tag>
+                      type="success">{{tag.content}}</el-tag>
             </div>
             <div class="abstract">
                 <span class="publish-time">
@@ -47,7 +47,7 @@
         </div>
         <div style="overflow: hidden">
                 <p slot="title">评论</p>
-                <div  v-for="(comment,index) in comments" :key=index>
+                <div  v-for="(comment,index) in comments" :key="index">
                     <span style="font-size: 17px;"><b>发布人:{{ comment.ownName }}</b></span>
                     <span style="margin-left: 10px; color: darkgray">发布时间:{{ comment.commentTime }}</span>
                     <p style="padding: 10px">内容: {{ comment.content }}</p>
